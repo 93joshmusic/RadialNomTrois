@@ -210,5 +210,11 @@ public class BrawlerScript : MonoBehaviour {
 		}
 	}
 
+    void OnDestroy()
+    {
+        characterController Chr = (characterController)player.GetComponent("characterController");
+        Chr.Score += 10;
+    }
+
 
 }
