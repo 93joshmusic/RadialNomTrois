@@ -46,7 +46,7 @@ public class FloaterScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        SliderForHealth.value = health;
 		GameObject Manager = GameObject.Find("GameManager");
 		GameManager Man = (GameManager)Manager.GetComponent("GameManager");
 		if (Man.Status == GameManager.GameState.InGame) {
