@@ -64,121 +64,126 @@ public class BrawlerScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        SliderForHealth.value = health;//Shows health on slider
+        GameObject Manager = GameObject.Find("GameManager");
+        GameManager Man = (GameManager)Manager.GetComponent("GameManager");
+        if (Man.Status == GameManager.GameState.InGame)
+        {
+            SliderForHealth.value = health;//Shows health on slider
 
-		//works out whether the player is behind or in front of the brawler
-		xDirection = player.transform.position.x - transform.position.x;
+            //works out whether the player is behind or in front of the brawler
+            xDirection = player.transform.position.x - transform.position.x;
 
-		if (health < 0)
-		{
-			Destroy (gameObject);
-		}
+            if (health < 0)
+            {
+                Destroy(gameObject);
+            }
 
-		//pauses the brawlers update while it attacks
-		if(attacking == true)
-		{
-
-
-			timer -= Time.deltaTime;
-
-			//ends the brawlers attack sequence
-			if(timer<0)
-			{
-				punchAnimator.SetBool("punchActive", false);
-				attacking = false;
-
-				//ensures the brawler continues in the correct direction
-				transform.rotation = correctRot;
-			}
-
-			//actually attacks
-			if((attacked == false)&&(timer<1.7f))
-			{
-				punchAnimator.SetBool ("punchActive", true);
-				if (xDirection > 0)
-				{
-					transform.rotation = new Quaternion (0,180,0,0);
-				}
-				else
-				{
-					transform.rotation = new Quaternion (0,0,0,0);
-				}
+            //pauses the brawlers update while it attacks
+            if (attacking == true)
+            {
 
 
-				//initiates a collision box 
-				Instantiate(attack,new Vector2(transform.position.x+(offset*facing),transform.position.y),Quaternion.identity); 
+                timer -= Time.deltaTime;
 
-				attacked = true;
-			}
+                //ends the brawlers attack sequence
+                if (timer < 0)
+                {
+                    punchAnimator.SetBool("punchActive", false);
+                    attacking = false;
 
+                    //ensures the brawler continues in the correct direction
+                    transform.rotation = correctRot;
+                }
 
-			return;
-		}
-
-
-
-		distanceVector = player.transform.position - transform.position;
-
-		//works out how far away the player is as a float
-		distance = Mathf.Sqrt((distanceVector.x*distanceVector.x) + (distanceVector.y*distanceVector.y));
-
-		//if the player is more than 2 units away the brawler will just keep going
-		if (distance > 2) {
-
-			transform.rotation = correctRot;
-
-			transform.Translate(new Vector3(moveDirection,0,0) * speed * Time.deltaTime, Space.World);
-
-			correctRot = transform.rotation;
-
-		}
-
-		//makes the brawler attack if the player is close enough and starts the timer. this can be changed to match up with the attack anim
-		else if (distance < 1)
-		{
-			attacked = false;
-			attacking = true;
-			timer = 2;
+                //actually attacks
+                if ((attacked == false) && (timer < 1.7f))
+                {
+                    punchAnimator.SetBool("punchActive", true);
+                    if (xDirection > 0)
+                    {
+                        transform.rotation = new Quaternion(0, 180, 0, 0);
+                    }
+                    else
+                    {
+                        transform.rotation = new Quaternion(0, 0, 0, 0);
+                    }
 
 
-		}
+                    //initiates a collision box 
+                    Instantiate(attack, new Vector2(transform.position.x + (offset * facing), transform.position.y), Quaternion.identity);
 
-		//makes the brawler charge the player
-		else if (distance<2)
-		{
+                    attacked = true;
+                }
 
 
-			if (xDirection > 0)
-			{
-				transform.rotation = new Quaternion (0,180,0,0);
-			}
-			else
-			{
-				transform.rotation = new Quaternion (0,0,0,0);
-			}
+                return;
+            }
 
 
 
-			transform.position = Vector2.MoveTowards(transform.position, player.transform.position, chargeSpeed*Time.deltaTime);
+            distanceVector = player.transform.position - transform.position;
+
+            //works out how far away the player is as a float
+            distance = Mathf.Sqrt((distanceVector.x * distanceVector.x) + (distanceVector.y * distanceVector.y));
+
+            //if the player is more than 2 units away the brawler will just keep going
+            if (distance > 2)
+            {
+
+                transform.rotation = correctRot;
+
+                transform.Translate(new Vector3(moveDirection, 0, 0) * speed * Time.deltaTime, Space.World);
+
+                correctRot = transform.rotation;
+
+            }
+
+            //makes the brawler attack if the player is close enough and starts the timer. this can be changed to match up with the attack anim
+            else if (distance < 1)
+            {
+                attacked = false;
+                attacking = true;
+                timer = 2;
 
 
-		}
+            }
 
-		
-
-
-		//checks which direction to face based on the player
-		if (xDirection < 0)
-		{
-			
-			facing = -1;
-		}
-		else
-		{
-			facing = 1;
-		}
+            //makes the brawler charge the player
+            else if (distance < 2)
+            {
 
 
+                if (xDirection > 0)
+                {
+                    transform.rotation = new Quaternion(0, 180, 0, 0);
+                }
+                else
+                {
+                    transform.rotation = new Quaternion(0, 0, 0, 0);
+                }
+
+
+
+                transform.position = Vector2.MoveTowards(transform.position, player.transform.position, chargeSpeed * Time.deltaTime);
+
+
+            }
+
+
+
+
+            //checks which direction to face based on the player
+            if (xDirection < 0)
+            {
+
+                facing = -1;
+            }
+            else
+            {
+                facing = 1;
+            }
+
+        }
 
 	
 	}

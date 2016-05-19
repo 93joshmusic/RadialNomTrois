@@ -7,6 +7,7 @@ public class UIBehaviour : MonoBehaviour {
     public Slider PlayerHealthBar;
     public GameObject StartingScreen;
     public GameObject GameOver;
+    public GameObject Paused;
     public Text ScoreNumber;
 	// Use this for initialization
 	void Start () {
@@ -26,6 +27,10 @@ public class UIBehaviour : MonoBehaviour {
     public void RestartGame()
     {
         Application.LoadLevel(0);
+    }
+    public void UnPause()
+    {
+        Manag.Status = GameManager.GameState.InGame;
     }
     void SetStatus()
     {
@@ -48,6 +53,14 @@ public class UIBehaviour : MonoBehaviour {
         {
            GameOver.SetActive(false);
         }
-
+        //Enable Pause screen
+        if(Manag.Status == GameManager.GameState.Paused)
+        {
+            Paused.SetActive(true);
+        }
+        else
+        {
+            Paused.SetActive(false);
+        }
     }
 }
