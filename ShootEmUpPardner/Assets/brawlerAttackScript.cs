@@ -30,8 +30,6 @@ public class brawlerAttackScript : MonoBehaviour {
 
 			Vector3 dir = transform.position - player.transform.position;
 
-			print (dir);
-
 			player.GetComponent<Rigidbody2D>().AddForce(-dir.normalized*force*Time.deltaTime);
 
 		}

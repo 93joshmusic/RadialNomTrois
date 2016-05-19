@@ -25,13 +25,16 @@ public class characterController : MonoBehaviour {
 	public float health;
 
     public int Score;
+
+	public GameObject ray;
 	
 	// Use this for initialization
 	void Start () {
 
+		ray = GameObject.FindGameObjectWithTag ("Ray");
 
 
-		health = 100;
+		health = 10;
 	
 	}
 	
@@ -81,14 +84,15 @@ public class characterController : MonoBehaviour {
             {
 
 
-                Vector2 rayPos = new Vector2(transform.position.x, transform.position.y - (transform.localScale.y / 2));
+                Vector2 rayPos = new Vector2(transform.position.x, transform.position.y );
 
-                RaycastHit2D rayCastHit = Physics2D.Raycast(rayPos, -Vector2.up, 0.5f);
+                RaycastHit2D rayCastHit = Physics2D.Raycast(ray.transform.position, -Vector2.up, 0.5f);
+
+
 
                 //makes the player only jump once
                 if (rayCastHit.collider != null)
                 {
-                    print("rayCastHit.collider.name = " + rayCastHit.collider.name);
                     GetComponent<Rigidbody2D>().AddForce(new Vector3(0, 1, 0) * jumpHeight);
                 }
 
@@ -117,7 +121,7 @@ public class characterController : MonoBehaviour {
 
 	void OnTriggerEnter2D (Collider2D other)
 	{
-		if (other.gameObject.tag == "BrawlerAttack") 
+		if (other.gameObject.tag == ("BrawlerAttack")||other.gameObject.tag == ("EnemyBullet")) 
 		{
 		
 
